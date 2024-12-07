@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+# 0.1: Custom plugin to remove the bridge network from a specific container after the build
+
+# Fetch the container ID for the app (for example, for the web container)
+APP_NAME=$1
+$CONTAINER_ID=$2  # Get the container ID for the specific container (e.g., web container)
+
+if [ -n "$CONTAINER_ID" ]; then
+  # Disconnect the container from the bridge network (remove the container from the default bridge network)
+  # Ensure the container isn't already disconnected (check if it's connected to bridge)
+  if "$DOCKER_BIN" inspect "$CONTAINER_ID" | grep -q '"NetworkMode": "bridge"'; then
+    echo "Removing bridge network from $APP_NAME so proxy doesn't get confused"
+    "$DOCKER_BIN" network disconnect bridge "$CONTAINER_ID" || true
+  else
+    echo "$APP_NAME is already disconnected from the bridge network."
+  fi
+else
+  echo "$APP_NAME container not found. Skipping bridge removal."
+fi
