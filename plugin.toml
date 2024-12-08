@@ -1,3 +1,4 @@
 [plugin]
 description = "a hook to remove pre-deployed containers from the default bridge to avoid proxy conflicts"
-version = "0.2.0"
+version = "0.2.2"
+[plugin.config]

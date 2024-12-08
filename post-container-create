@@ -12,7 +12,7 @@ echo "-----> Plugin: Proxy patcher"
 
 # Check if container ID is provided
 if [ -z "$CONTAINER_ID" ]; then
-  echo "        $APP_NAME container not found. Skipping bridge removal."
+  echo "       $APP_NAME container not found. Skipping bridge removal."
   exit 0
 fi
 
@@ -20,8 +20,8 @@ fi
 network_mode=$(docker inspect --format '{{.HostConfig.NetworkMode}}' "$CONTAINER_ID")
 
 if [ "$network_mode" == "bridge" ]; then
-  echo "        Removing bridge network from $APP_NAME so proxy doesn't get confused"
+  echo "       Removing bridge network from $APP_NAME so proxy doesn't get confused"
   docker network disconnect bridge "$CONTAINER_ID" || true
 else
-  echo "        $APP_NAME is already disconnected from the bridge network."
+  echo "       $APP_NAME is already disconnected from the bridge network."
 fi
