@@ -6,7 +6,7 @@ set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 # Fetch the container ID for the app (for example, for the web container)
 APP_NAME=$1
-$CONTAINER_ID=$2  # Get the container ID for the specific container (e.g., web container)
+CONTAINER_ID=$2  # Get the container ID for the specific container (e.g., web container)
 
 if [ -n "$CONTAINER_ID" ]; then
   # Disconnect the container from the bridge network (remove the container from the default bridge network)
@@ -20,3 +20,4 @@ if [ -n "$CONTAINER_ID" ]; then
 else
   echo "$APP_NAME container not found. Skipping bridge removal."
 fi
+
